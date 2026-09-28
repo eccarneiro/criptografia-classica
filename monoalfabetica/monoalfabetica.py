@@ -13,39 +13,22 @@ def gerar_chave_manual(chave):
     """
     Remover os caracteres repetidos da string
     """
-    chave_limpa = "".join(dict.fromkeys(chave))
+    chave = chave.replace(" ", "")
+    chave_limpa = "".join(chave.lower())
 
     chave_completa = []
     for letra in chave_limpa:
         chave_completa.append(letra)
 
-    contador = 0
-    posicoes_chave = []
-
-    for letraChave in chave_completa:
-        if letraChave == " ":
-            posicoes_chave.append(letraChave)
-            contador = 0
-        else:
-            for letraAlfabeto in ALFABETO:
-                contador+=1
-
-                if letraChave.lower() == letraAlfabeto:
-                    posicoes_chave.append(contador)
-            contador = 0
-
     alfabeto_copia = []
+
     for letra in ALFABETO:
         alfabeto_copia.append(letra)
-
-    for i in posicoes_chave:
-        alfabeto_copia.pop(i-1)
 
     for letra in alfabeto_copia:
         chave_completa.append(letra)
 
-    return chave_completa
-
+    return "".join(dict.fromkeys(chave_completa))
 
 def gerar_chave_aleatoria():
     chave_aleatoria = []
@@ -105,7 +88,16 @@ def criptografar(chave, texto, opcao):
             return texto_criptografado_string
 
         case "2":
-            pass
+            for posicao in posicoes_texto:
+                if posicao == " ":
+                    texto_criptografado.append(" ")
+                for i in range(len(chave)):
+                    if i == posicao:
+                        texto_criptografado.append(chave[i-1].lower())
+
+
+            texto_criptografado_string = "".join(texto_criptografado)
+            return texto_criptografado_string
 
 
 def descriptografar(chave, texto):
@@ -121,20 +113,22 @@ def main():
         print("3 - Descriptografar")
 
         print("4 - Fechar programa")
-        opcao = input("Digite o número: ")
+        opcao = input("Digite o número:")
 
         match opcao:
             case "1":
-                texto = input("\nDigite o texto para criptografar: ")
+                texto = input("\nDigite o texto para criptografar:")
                 chave_aleatoria = gerar_chave_aleatoria()
-                print("Copie a chave (para descriptografar): ", "".join(chave_aleatoria))
-                print("Texto criptografado:")
+                print("\nCopie a chave (para descriptografar):\n"+"".join(chave_aleatoria))
+                print("\nTexto criptografado:")
                 print(criptografar(chave_aleatoria, texto, opcao))
                 
             case "2":
-                chave = input("\nDigite a chave: ")
-                texto = input("Digite o texto para criptografar: ")
-                print(criptografar(chave, texto, opcao))
+                chave_manual = gerar_chave_manual(input("\nDigite a chave:"))
+                print("\nCopie a chave (para descriptografar):\n"+"".join(chave_manual))
+                texto = input("\nDigite o texto para criptografar:\n")
+                print("\nTexto criptografado:")
+                print(criptografar(chave_manual, texto, opcao))
                 
             case "3":
                 chave = input("\nDigite a chave: ")
