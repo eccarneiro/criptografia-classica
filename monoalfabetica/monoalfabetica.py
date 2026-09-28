@@ -83,7 +83,7 @@ def criptografar(chave, texto, opcao):
                         posicoes_texto.append(contador)
                         posicoes_maiusculas.append(True)
                     else:
-                        posicoes_texto.append(str(contador))
+                        posicoes_texto.append(contador)
                         posicoes_maiusculas.append(False)
             contador = 0
 
@@ -94,13 +94,15 @@ def criptografar(chave, texto, opcao):
     match opcao:
         case "1":
             for posicao in posicoes_texto:
+                if posicao == " ":
+                    texto_criptografado.append(" ")
                 for i in range(len(chave)):
                     if i == posicao:
                         texto_criptografado.append(chave[i-1].lower())
 
 
             texto_criptografado_string = "".join(texto_criptografado)
-            print(texto_criptografado_string)
+            return texto_criptografado_string
 
         case "2":
             pass
@@ -131,7 +133,7 @@ def main():
                 
             case "2":
                 chave = input("\nDigite a chave: ")
-                texto = input("Digite o texto: ")
+                texto = input("Digite o texto para criptografar: ")
                 print(criptografar(chave, texto, opcao))
                 
             case "3":
