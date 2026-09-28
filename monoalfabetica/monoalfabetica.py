@@ -39,7 +39,7 @@ def gerar_chave_aleatoria():
 
     return chave_aleatoria
 
-def criptografar(chave, texto, opcao):
+def criptografar(chave, texto):
     """
     2- Nós precisamos usar isso para substituir pelo alfabeto randomizado
     """
@@ -74,35 +74,58 @@ def criptografar(chave, texto, opcao):
     Substituir as posições
     """
     texto_criptografado = []
-    match opcao:
-        case "1":
-            for posicao in posicoes_texto:
-                if posicao == " ":
-                    texto_criptografado.append(" ")
-                for i in range(len(chave)):
-                    if i == posicao:
-                        texto_criptografado.append(chave[i-1].lower())
+    for posicao in posicoes_texto:
+        if posicao == " ":
+            texto_criptografado.append(" ")
+        for i in range(len(chave)):
+            if i == posicao:
+                texto_criptografado.append(chave[i-1].lower())
 
+        for i in range(len(posicoes_maiusculas)):
+            if posicoes_maiusculas[i]:
+                texto_criptografado[i] = texto_criptografado[i].upper()
 
-            texto_criptografado_string = "".join(texto_criptografado)
-            return texto_criptografado_string
-
-        case "2":
-            for posicao in posicoes_texto:
-                if posicao == " ":
-                    texto_criptografado.append(" ")
-                for i in range(len(chave)):
-                    if i == posicao:
-                        texto_criptografado.append(chave[i-1].lower())
-
-
-            texto_criptografado_string = "".join(texto_criptografado)
-            return texto_criptografado_string
-
+    texto_criptografado_string = "".join(texto_criptografado)
+    return texto_criptografado_string
 
 def descriptografar(chave, texto):
-    pass
+    
+    contador = 0
+    posicoes_texto = []
+    posicoes_maiusculas = []
 
+    for letraTexto in texto:
+        if letraTexto == " ":
+            posicoes_texto.append(letraTexto)
+            contador = 0
+        else:
+            for letraAlfabeto in chave:
+                contador+=1
+
+                if letraTexto.lower() == letraAlfabeto:
+                    if letraTexto.isupper():
+                        posicoes_texto.append(contador)
+                        posicoes_maiusculas.append(True)
+                    else:
+                        posicoes_texto.append(contador)
+                        posicoes_maiusculas.append(False)
+            contador = 0
+
+    texto_descriptografado = []
+
+    for posicao in posicoes_texto:
+        if posicao == " ":
+            texto_descriptografado.append(" ")
+        for i in range(len(chave)):
+            if i == posicao:
+                texto_descriptografado.append(ALFABETO[i-1].lower())
+
+        for i in range(len(posicoes_maiusculas)):
+            if posicoes_maiusculas[i]:
+                texto_descriptografado[i] = texto_descriptografado[i].upper()
+
+    texto_descriptografado_string = "".join(texto_descriptografado)
+    return texto_descriptografado_string
 
 def main():
     while True:
@@ -121,18 +144,18 @@ def main():
                 chave_aleatoria = gerar_chave_aleatoria()
                 print("\nCopie a chave (para descriptografar):\n"+"".join(chave_aleatoria))
                 print("\nTexto criptografado:")
-                print(criptografar(chave_aleatoria, texto, opcao))
+                print(criptografar(chave_aleatoria, texto))
                 
             case "2":
                 chave_manual = gerar_chave_manual(input("\nDigite a chave:"))
                 print("\nCopie a chave (para descriptografar):\n"+"".join(chave_manual))
                 texto = input("\nDigite o texto para criptografar:\n")
                 print("\nTexto criptografado:")
-                print(criptografar(chave_manual, texto, opcao))
+                print(criptografar(chave_manual, texto))
                 
             case "3":
                 chave = input("\nDigite a chave: ")
-                texto = input("Digite o texto criptografado: ")
+                texto = input("\nDigite o texto criptografado: ")
                 print(descriptografar(chave, texto))
 
             case "4":
