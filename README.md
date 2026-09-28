@@ -8,7 +8,7 @@ Implementações das criptografias clássicas para a disciplina de Segurança da
 |-------|-------|-------|
 | Cifra de César | `/cesar` | - |
 | Cifra de Vigenère | `/vigenere` | Ygor |
-| Cifra de Substituição Monoalfabética | `/substituicao` | - |
+| Cifra de Substituição Monoalfabética | `/substituicao` | Caique e Felipe |
 | Cifra de Transposição | `/transposicao` | Elton |
 
 ## Como executar cada cifra
