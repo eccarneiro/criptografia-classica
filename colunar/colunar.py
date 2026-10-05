@@ -1,7 +1,10 @@
+def ordena_letra(par):
+    return par[1]
+
 def ordem_colunas (chave):
-    com_indice = list(enumerate(chave))
-    com_indice.sort(key=lambda par: par[1])
-    return [indice for indice, letra in com_indice]
+    pares = list(enumerate(chave))
+    pares.sort(key=ordena_letra)
+    return [indice for indice, letra in pares]
 
 def cifrar(texto, chave):
     num_colunas = len(chave)
@@ -11,8 +14,9 @@ def cifrar(texto, chave):
         coluna = i % num_colunas
         colunas[coluna] += letra
 
-    while len(colunas[-1]) < len(colunas[0]):
-        colunas[-1] += "X"
+    for i in range(num_colunas):
+        while len(colunas[i]) < len(colunas[0]):
+            colunas[i] += "X"
 
     ordem = ordem_colunas(chave)
     resultado = ""
@@ -21,7 +25,7 @@ def cifrar(texto, chave):
 
     return resultado
 
-def descifrar(texto, chave):
+def decifrar(texto, chave):
     num_colunas = len(chave)
     num_linhas = len(texto) //num_colunas
 
@@ -41,16 +45,16 @@ def descifrar(texto, chave):
     return resultado.rstrip("X")
 
 while True:
-    opcao = input("Escolha uma opção (1 - Cifrar, 2 - Descifrar) ")
+    opcao = input("Escolha uma opção (1 - Cifrar, 2 - Decifrar) ")
     if opcao == "1":
         texto = input("Digite o texto a ser cifrado: ")
         chave = input("Digite a chave: ")
         resultado = cifrar(texto, chave)
         print("Texto cifrado:", resultado)
     elif opcao == "2":
-        texto = input("Digite o texto a ser descifrado: ")
+        texto = input("Digite o texto a ser decifrado: ")
         chave = input("Digite a chave: ")
-        resultado = descifrar(texto, chave)
-        print("Texto descifrado:", resultado)
+        resultado = decifrar(texto, chave)
+        print("Texto decifrado:", resultado)
     else:
         print("Opção inválida. Tente novamente.")
